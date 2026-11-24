@@ -121,11 +121,13 @@ Route::middleware(['auth'])->group(function () {
 
 // ============================================================================
 // [M4-KATALOG] - Modul Katalog & Pencarian Publik
+// >>> [M4-KATALOG] START
 // ============================================================================
-Route::get('/katalog', fn () => view('catalog.index'))->name('catalog.index');
-Route::get('/barang/{item}', function (\App\Models\Item $item) {
-    return view('catalog.show', compact('item'));
-})->name('catalog.show');
+Route::get('/katalog', [\App\Http\Controllers\Katalog\ItemController::class, 'index'])->name('catalog.index');
+Route::get('/barang', [\App\Http\Controllers\Katalog\ItemController::class, 'index'])->name('items.index');
+Route::get('/barang/{item}', [\App\Http\Controllers\Katalog\ItemController::class, 'show'])->name('catalog.show');
+Route::get('/katalog/{item}', [\App\Http\Controllers\Katalog\ItemController::class, 'show'])->name('items.show');
+// <<< [M4-KATALOG] END
 
 // ============================================================================
 // [M5-KLAIM] - Modul Klaim & Penemuan Barang
