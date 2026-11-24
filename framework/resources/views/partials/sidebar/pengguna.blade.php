@@ -14,7 +14,7 @@
     <nav class="sidebar-nav">
         {{-- [M4-KATALOG] --}}
         <div class="nav-section-title">KATALOG &amp; JELAJAH</div>
-        <a href="{{ route('pengguna.dashboard') }}" class="sidebar-item {{ request()->routeIs('pengguna.dashboard') ? 'active' : '' }}">
+        <a href="{{ route('pengguna.dashboard') }}" class="sidebar-item {{ request()->routeIs('pengguna.dashboard') || request()->routeIs('dashboard') ? 'active' : '' }}">
             <span class="icon">🏠</span> Beranda Pengguna
         </a>
         <a href="{{ route('catalog.index') }}" class="sidebar-item {{ request()->routeIs('catalog.*') ? 'active' : '' }}">
@@ -27,12 +27,17 @@
 
         {{-- [M3-LAPORAN] --}}
         <div class="nav-section-title">PELAPORAN BARANG</div>
-        <a href="{{ route('items.create') }}" class="sidebar-item {{ request()->routeIs('items.create') ? 'active' : '' }}">
+        <a href="{{ route('items.create') }}" class="sidebar-item {{ request()->routeIs('items.create') || request()->routeIs('reports.create') ? 'active' : '' }}">
             <span class="icon">➕</span> Laporkan Barang (Lost/Found)
         </a>
-        <a href="{{ route('items.my-reports') }}" class="sidebar-item {{ request()->routeIs('items.my-reports') ? 'active' : '' }}">
+        <a href="{{ route('items.my-reports') }}" class="sidebar-item {{ request()->routeIs('items.my-reports') || request()->routeIs('my-reports.*') ? 'active' : '' }}">
             <span class="icon">📋</span> Laporan Saya
         </a>
+        @if(Route::has('notifications.index'))
+        <a href="{{ route('notifications.index') }}" class="sidebar-item {{ request()->routeIs('notifications.*') ? 'active' : '' }}">
+            <span class="icon">🔔</span> Notifikasi
+        </a>
+        @endif
         {{-- [/M3-LAPORAN] --}}
 
         {{-- [M5-KLAIM] --}}

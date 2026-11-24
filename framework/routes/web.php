@@ -84,16 +84,40 @@ Route::middleware('auth')->group(function () {
 // <<< [M2-AUTH] END
 
 // ============================================================================
-// [M3-LAPORAN] - Modul Pelaporan Barang Lost & Found
+// [M3-LAPORAN] - Modul Pelaporan Barang Lost & Found & Dashboard Pengguna
+// >>> [M3-LAPORAN] START
 // ============================================================================
-Route::middleware(['auth', 'role:pengguna'])->prefix('laporan')->name('items.')->group(function () {
-    Route::get('/buat', [\App\Http\Controllers\ItemController::class, 'create'])->name('create');
-    Route::post('/', [\App\Http\Controllers\ItemController::class, 'store'])->name('store');
-    Route::get('/saya', [\App\Http\Controllers\ItemController::class, 'myReports'])->name('my-reports');
-    Route::get('/{item}/edit', [\App\Http\Controllers\ItemController::class, 'edit'])->name('edit');
-    Route::put('/{item}', [\App\Http\Controllers\ItemController::class, 'update'])->name('update');
-    Route::post('/{item}/cancel', [\App\Http\Controllers\ItemController::class, 'cancel'])->name('cancel');
+Route::middleware(['auth'])->group(function () {
+    // Dashboard Pengguna
+    Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/pengguna/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('pengguna.dashboard');
+
+    // Buat Laporan
+    Route::get('/laporan/buat', [\App\Http\Controllers\Laporan\ReportController::class, 'create'])->name('items.create');
+    Route::post('/laporan', [\App\Http\Controllers\Laporan\ReportController::class, 'store'])->name('items.store');
+    // Alias nama rute reports.*
+    Route::get('/lapor', [\App\Http\Controllers\Laporan\ReportController::class, 'create'])->name('reports.create');
+    Route::post('/lapor', [\App\Http\Controllers\Laporan\ReportController::class, 'store'])->name('reports.store');
+
+    // Laporan Saya
+    Route::get('/laporan/saya', [\App\Http\Controllers\Laporan\MyReportController::class, 'index'])->name('items.my-reports');
+    Route::get('/laporan-saya', [\App\Http\Controllers\Laporan\MyReportController::class, 'index'])->name('my-reports.index');
+
+    Route::get('/laporan/{item}/edit', [\App\Http\Controllers\Laporan\MyReportController::class, 'edit'])->name('items.edit');
+    Route::get('/laporan-saya/{item}/ubah', [\App\Http\Controllers\Laporan\MyReportController::class, 'edit'])->name('my-reports.edit');
+
+    Route::put('/laporan/{item}', [\App\Http\Controllers\Laporan\MyReportController::class, 'update'])->name('items.update');
+    Route::put('/laporan-saya/{item}', [\App\Http\Controllers\Laporan\MyReportController::class, 'update'])->name('my-reports.update');
+
+    Route::post('/laporan/{item}/cancel', [\App\Http\Controllers\Laporan\MyReportController::class, 'cancel'])->name('items.cancel');
+    Route::patch('/laporan-saya/{item}/batal', [\App\Http\Controllers\Laporan\MyReportController::class, 'cancel'])->name('my-reports.cancel');
+
+    // Notifikasi
+    Route::get('/notifikasi', [\App\Http\Controllers\NotificationController::class, 'index'])->name('notifications.index');
+    Route::patch('/notifikasi/{id}/dibaca', [\App\Http\Controllers\NotificationController::class, 'read'])->name('notifications.read');
+    Route::patch('/notifikasi/baca-semua', [\App\Http\Controllers\NotificationController::class, 'readAll'])->name('notifications.read-all');
 });
+// <<< [M3-LAPORAN] END
 
 // ============================================================================
 // [M4-KATALOG] - Modul Katalog & Pencarian Publik
@@ -102,10 +126,6 @@ Route::get('/katalog', fn () => view('catalog.index'))->name('catalog.index');
 Route::get('/barang/{item}', function (\App\Models\Item $item) {
     return view('catalog.show', compact('item'));
 })->name('catalog.show');
-
-// Dashboard Pengguna (beranda pengguna login)
-Route::middleware(['auth', 'role:pengguna'])->get('/pengguna/dashboard', fn () => view('pengguna.dashboard'))
-    ->name('pengguna.dashboard');
 
 // ============================================================================
 // [M5-KLAIM] - Modul Klaim & Penemuan Barang
