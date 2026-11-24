@@ -159,7 +159,7 @@ Aplikasi dapat diakses di `http://localhost:8000`.
 
 Spesifikasi lengkap (kebutuhan fungsional, non-fungsional, Use Case, Class Diagram, dan Activity Diagram) tersedia pada dokumen SRS:
 
-📎 [`SRS_FMIPA_Lost_and_Found_Kelompok_2_v1_0.pdf`](./docs/SRS_FMIPA_Lost_and_Found_Kelompok_2_v1_0.pdf)
+📎 [SRS FMIPA Lost & Found (PDF)](SRS_FMIPA_Lost_and_Found_Kelompok_2_v1.0.pdf)
 
 > Sesuaikan path tautan di atas dengan lokasi file SRS pada repo Anda.
 
