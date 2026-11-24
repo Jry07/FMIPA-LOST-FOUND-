@@ -15,6 +15,8 @@ Route::get('/terima-kasih', function () {
 Route::get('/claims/evidence/{claim}', [\App\Http\Controllers\EvidenceController::class, 'show'])
     ->middleware('auth')
     ->name('claims.evidence');
+Route::get('/bukti/{claim}', [\App\Http\Controllers\EvidenceController::class, 'show'])
+    ->middleware('auth');
 
 // Quick login khusus lokal
 if (app()->environment('local')) {
@@ -131,15 +133,29 @@ Route::get('/katalog/{item}', [\App\Http\Controllers\Katalog\ItemController::cla
 
 // ============================================================================
 // [M5-KLAIM] - Modul Klaim & Penemuan Barang
+// >>> [M5-KLAIM] START
 // ============================================================================
-Route::middleware(['auth', 'role:pengguna'])->prefix('klaim')->name('claims.')->group(function () {
-    Route::get('/buat/{item}', [\App\Http\Controllers\ClaimController::class, 'createClaim'])->name('create-claim');
-    Route::post('/buat/{item}', [\App\Http\Controllers\ClaimController::class, 'storeClaim'])->name('store-claim');
-    Route::get('/temukan/{item}', [\App\Http\Controllers\ClaimController::class, 'createFound'])->name('create-found');
-    Route::post('/temukan/{item}', [\App\Http\Controllers\ClaimController::class, 'storeFound'])->name('store-found');
-    Route::get('/saya', [\App\Http\Controllers\ClaimController::class, 'myClaims'])->name('my-claims');
-    Route::get('/{claim}', [\App\Http\Controllers\ClaimController::class, 'show'])->name('show');
+Route::middleware(['auth'])->group(function () {
+    // Form Klaim Kepemilikan (pada barang Found)
+    Route::get('/barang/{item}/klaim', [\App\Http\Controllers\Klaim\ClaimController::class, 'create'])->name('claims.create');
+    Route::post('/barang/{item}/klaim', [\App\Http\Controllers\Klaim\ClaimController::class, 'store'])->name('claims.store');
+    Route::get('/klaim/buat/{item}', [\App\Http\Controllers\Klaim\ClaimController::class, 'create'])->name('claims.create-claim');
+    Route::post('/klaim/buat/{item}', [\App\Http\Controllers\Klaim\ClaimController::class, 'store'])->name('claims.store-claim');
+
+    // Form Pelaporan Penemuan (pada barang Lost)
+    Route::get('/barang/{item}/temuan', [\App\Http\Controllers\Klaim\ClaimController::class, 'createFinding'])->name('claims.finding.create');
+    Route::post('/barang/{item}/temuan', [\App\Http\Controllers\Klaim\ClaimController::class, 'storeFinding'])->name('claims.finding.store');
+    Route::get('/klaim/temukan/{item}', [\App\Http\Controllers\Klaim\ClaimController::class, 'createFinding'])->name('claims.create-found');
+    Route::post('/klaim/temukan/{item}', [\App\Http\Controllers\Klaim\ClaimController::class, 'storeFinding'])->name('claims.store-found');
+
+    // Daftar & Detail Klaim Saya
+    Route::get('/klaim-saya', [\App\Http\Controllers\Klaim\MyClaimController::class, 'index'])->name('my-claims.index');
+    Route::get('/klaim/saya', [\App\Http\Controllers\Klaim\MyClaimController::class, 'index'])->name('claims.my-claims');
+
+    Route::get('/klaim-saya/{claim}', [\App\Http\Controllers\Klaim\MyClaimController::class, 'show'])->name('my-claims.show');
+    Route::get('/klaim/{claim}', [\App\Http\Controllers\Klaim\MyClaimController::class, 'show'])->name('claims.show');
 });
+// <<< [M5-KLAIM] END
 
 // ============================================================================
 // [M6-VERIFIKASI] - Modul Verifikasi Laporan, Klaim & Serah Terima

@@ -17,7 +17,7 @@
         <a href="{{ route('pengguna.dashboard') }}" class="sidebar-item {{ request()->routeIs('pengguna.dashboard') || request()->routeIs('dashboard') ? 'active' : '' }}">
             <span class="icon">🏠</span> Beranda Pengguna
         </a>
-        <a href="{{ route('catalog.index') }}" class="sidebar-item {{ request()->routeIs('catalog.*') ? 'active' : '' }}">
+        <a href="{{ route('catalog.index') }}" class="sidebar-item {{ request()->routeIs('catalog.*') || request()->routeIs('items.index') ? 'active' : '' }}">
             <span class="icon">🔍</span> Temukan Barang
         </a>
         <a href="{{ route('cara-kerja') }}" class="sidebar-item {{ request()->routeIs('cara-kerja') ? 'active' : '' }}">
@@ -42,8 +42,8 @@
 
         {{-- [M5-KLAIM] --}}
         <div class="nav-section-title">KLAIM &amp; PENEMUAN</div>
-        <a href="{{ route('claims.my-claims') }}" class="sidebar-item {{ request()->routeIs('claims.my-claims') ? 'active' : '' }}">
-            <span class="icon">🤝</span> Klaim &amp; Penemuan Saya
+        <a href="{{ route('my-claims.index') }}" class="sidebar-item {{ request()->routeIs('claims.my-claims') || request()->routeIs('my-claims.*') ? 'active' : '' }}">
+            <span class="icon">🤝</span> Klaim Saya
         </a>
         {{-- [/M5-KLAIM] --}}
 
