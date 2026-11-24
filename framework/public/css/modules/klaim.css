@@ -1,0 +1,867 @@
+/**
+ * Modul M5: Pengajuan Klaim, Pelaporan Penemuan, dan Klaim Saya
+ * FMIPA Lost & Found
+ * Mengacu pada Design Token Figma & SRS Kelompok 2
+ */
+
+:root {
+    --klaim-maroon: var(--maroon, #7A0000);
+    --klaim-maroon-dark: #5e0000;
+    --klaim-yellow: var(--yellow, #FFC800);
+    --klaim-yellow-hover: #e6b400;
+    --klaim-cream: var(--cream, #F8E5DF);
+    --klaim-cream-light: #fdf6f4;
+    --klaim-border: #e8d5d0;
+    --klaim-text-dark: #222222;
+    --klaim-text-muted: #666666;
+    --klaim-bg-card: #ffffff;
+    --klaim-radius: 12px;
+    --klaim-radius-sm: 8px;
+    --klaim-font-heading: 'Playfair Display', Georgia, serif;
+    --klaim-font-body: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* ==========================================================================
+   1. Tombol Aksi Detail Barang (Action Button - Figma Hal. 10)
+   ========================================================================== */
+
+.btn-claim-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 14px 20px;
+    font-family: var(--klaim-font-body);
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: var(--klaim-radius-sm);
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+    box-sizing: border-box;
+}
+
+.btn-claim-maroon {
+    background-color: var(--klaim-maroon);
+    color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(122, 0, 0, 0.25);
+}
+
+.btn-claim-maroon:hover {
+    background-color: var(--klaim-maroon-dark);
+    color: #ffffff !important;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(122, 0, 0, 0.35);
+}
+
+.btn-claim-yellow {
+    background-color: var(--klaim-yellow);
+    color: var(--klaim-maroon) !important;
+    box-shadow: 0 4px 12px rgba(255, 200, 0, 0.3);
+}
+
+.btn-claim-yellow:hover {
+    background-color: var(--klaim-yellow-hover);
+    color: var(--klaim-maroon-dark) !important;
+    transform: translateY(-1px);
+}
+
+.btn-claim-disabled {
+    background-color: #e2e8f0;
+    color: #94a3b8 !important;
+    cursor: not-allowed;
+    border: 1px solid #cbd5e1;
+    box-shadow: none;
+}
+
+.badge-owner-info {
+    display: block;
+    width: 100%;
+    padding: 12px 16px;
+    background-color: #f1f5f9;
+    color: #475569;
+    font-family: var(--klaim-font-body);
+    font-size: 0.925rem;
+    font-weight: 500;
+    text-align: center;
+    border-radius: var(--klaim-radius-sm);
+    border: 1px dashed #cbd5e1;
+    box-sizing: border-box;
+}
+
+/* ==========================================================================
+   2. Kotak Info Steps (3 Kolom Bernomor - Figma Hal. 10)
+   ========================================================================== */
+
+.info-steps-card {
+    background: #ffffff;
+    border: 1px solid var(--klaim-border);
+    border-radius: var(--klaim-radius);
+    padding: 24px 28px;
+    margin-top: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.info-steps-header {
+    margin-bottom: 20px;
+}
+
+.info-steps-title {
+    font-family: var(--klaim-font-heading);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--klaim-maroon);
+    margin: 0;
+}
+
+.info-steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.info-step-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.info-step-number {
+    font-family: var(--klaim-font-heading);
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--klaim-maroon);
+    line-height: 1;
+    min-width: 32px;
+}
+
+.info-step-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.info-step-name {
+    font-family: var(--klaim-font-body);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--klaim-text-dark);
+}
+
+.info-step-desc {
+    font-family: var(--klaim-font-body);
+    font-size: 0.825rem;
+    color: var(--klaim-text-muted);
+    line-height: 1.4;
+    margin: 0;
+}
+
+/* ==========================================================================
+   3. Form Kartu Pengajuan Klaim & Penemuan
+   ========================================================================== */
+
+.claim-form-wrapper {
+    max-width: 780px;
+    margin: 32px auto;
+    padding: 0 16px;
+}
+
+.claim-card {
+    background: #ffffff;
+    border: 1px solid var(--klaim-border);
+    border-radius: var(--klaim-radius);
+    box-shadow: 0 4px 16px rgba(122, 0, 0, 0.06);
+    overflow: hidden;
+}
+
+.claim-card-header {
+    background: linear-gradient(135deg, var(--klaim-cream-light) 0%, var(--klaim-cream) 100%);
+    padding: 24px 28px;
+    border-bottom: 1px solid var(--klaim-border);
+}
+
+.claim-card-title {
+    font-family: var(--klaim-font-heading);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--klaim-maroon);
+    margin: 0 0 6px 0;
+}
+
+.claim-card-subtitle {
+    font-family: var(--klaim-font-body);
+    font-size: 0.875rem;
+    color: var(--klaim-text-muted);
+    margin: 0;
+}
+
+/* Ringkasan Barang di bagian atas Form */
+.item-summary-strip {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 28px;
+    background: #ffffff;
+    border-bottom: 1px solid var(--klaim-border);
+}
+
+.item-summary-thumb {
+    width: 68px;
+    height: 68px;
+    border-radius: var(--klaim-radius-sm);
+    object-fit: cover;
+    background-color: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    flex-shrink: 0;
+}
+
+.item-summary-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.item-summary-badge-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.item-summary-code {
+    font-family: var(--klaim-font-body);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--klaim-maroon);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.item-summary-name {
+    font-family: var(--klaim-font-heading);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--klaim-text-dark);
+    margin: 0 0 4px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.item-summary-meta {
+    font-family: var(--klaim-font-body);
+    font-size: 0.825rem;
+    color: var(--klaim-text-muted);
+}
+
+/* Form Body */
+.claim-card-body {
+    padding: 28px;
+}
+
+.form-group-klaim {
+    margin-bottom: 22px;
+}
+
+.form-label-klaim {
+    display: block;
+    font-family: var(--klaim-font-body);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--klaim-text-dark);
+    margin-bottom: 6px;
+}
+
+.form-label-klaim .required {
+    color: var(--klaim-maroon);
+    font-weight: 700;
+}
+
+.form-hint-klaim {
+    font-family: var(--klaim-font-body);
+    font-size: 0.8rem;
+    color: var(--klaim-text-muted);
+    margin-bottom: 8px;
+}
+
+.form-control-klaim {
+    width: 100%;
+    padding: 10px 14px;
+    font-family: var(--klaim-font-body);
+    font-size: 0.925rem;
+    color: var(--klaim-text-dark);
+    background-color: #fafbfc;
+    border: 1px solid #d0d7de;
+    border-radius: var(--klaim-radius-sm);
+    transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+    box-sizing: border-box;
+}
+
+.form-control-klaim:focus {
+    outline: none;
+    background-color: #ffffff;
+    border-color: var(--klaim-maroon);
+    box-shadow: 0 0 0 3px rgba(122, 0, 0, 0.12);
+}
+
+.form-control-klaim.is-invalid {
+    border-color: #dc2626;
+    background-color: #fff8f8;
+}
+
+.invalid-feedback-klaim {
+    display: block;
+    font-family: var(--klaim-font-body);
+    font-size: 0.8rem;
+    color: #dc2626;
+    margin-top: 5px;
+}
+
+/* Upload Area & Image Preview */
+.upload-dropzone {
+    border: 2px dashed #cbd5e1;
+    border-radius: var(--klaim-radius-sm);
+    padding: 20px;
+    text-align: center;
+    background-color: #f8fafc;
+    cursor: pointer;
+    transition: border-color 0.2s, background-color 0.2s;
+    position: relative;
+}
+
+.upload-dropzone:hover,
+.upload-dropzone.dragover {
+    border-color: var(--klaim-maroon);
+    background-color: var(--klaim-cream-light);
+}
+
+.upload-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 8px;
+    color: var(--klaim-maroon);
+}
+
+.upload-text {
+    font-family: var(--klaim-font-body);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--klaim-text-dark);
+    margin-bottom: 4px;
+}
+
+.upload-subtext {
+    font-family: var(--klaim-font-body);
+    font-size: 0.775rem;
+    color: var(--klaim-text-muted);
+}
+
+.preview-container {
+    display: none;
+    margin-top: 14px;
+    position: relative;
+    border-radius: var(--klaim-radius-sm);
+    overflow: hidden;
+    max-width: 280px;
+    border: 1px solid #e2e8f0;
+}
+
+.preview-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.preview-remove-btn {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    background: rgba(0, 0, 0, 0.65);
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+}
+
+.preview-remove-btn:hover {
+    background: #dc2626;
+}
+
+/* Form Actions */
+.claim-form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid #f1f5f9;
+}
+
+.btn-secondary-klaim {
+    padding: 10px 18px;
+    font-family: var(--klaim-font-body);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--klaim-text-muted);
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: var(--klaim-radius-sm);
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.btn-secondary-klaim:hover {
+    background: #e2e8f0;
+    color: var(--klaim-text-dark);
+}
+
+.btn-submit-klaim {
+    padding: 11px 24px;
+    font-family: var(--klaim-font-body);
+    font-size: 0.925rem;
+    font-weight: 600;
+    color: var(--klaim-maroon);
+    background-color: var(--klaim-yellow);
+    border: none;
+    border-radius: var(--klaim-radius-sm);
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(255, 200, 0, 0.35);
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn-submit-klaim:hover {
+    background-color: var(--klaim-yellow-hover);
+    transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   4. Tampilan Halaman "Klaim Saya" (Index - Figma Hal. 3)
+   ========================================================================== */
+
+.my-claims-container {
+    padding: 8px 0;
+}
+
+.my-claims-header {
+    margin-bottom: 24px;
+}
+
+.my-claims-title {
+    font-family: var(--klaim-font-heading);
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--klaim-maroon);
+    margin: 0 0 6px 0;
+}
+
+.my-claims-subtitle {
+    font-family: var(--klaim-font-body);
+    font-size: 0.9rem;
+    color: var(--klaim-text-muted);
+    margin: 0;
+}
+
+.claims-table-card {
+    background: #ffffff;
+    border: 1px solid var(--klaim-border);
+    border-radius: var(--klaim-radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+}
+
+.claims-table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.claims-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--klaim-font-body);
+    font-size: 0.875rem;
+    text-align: left;
+}
+
+.claims-table thead th {
+    background-color: var(--klaim-cream);
+    color: var(--klaim-maroon);
+    font-family: var(--klaim-font-heading);
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--klaim-border);
+    white-space: nowrap;
+}
+
+.claims-table tbody td {
+    padding: 16px 18px;
+    color: var(--klaim-text-dark);
+    border-bottom: 1px solid #f1f5f9;
+    vertical-align: middle;
+}
+
+.claims-table tbody tr:hover {
+    background-color: #fdfaf9;
+}
+
+.claims-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.claim-code-cell {
+    font-weight: 700;
+    color: var(--klaim-maroon);
+    white-space: nowrap;
+}
+
+.claim-item-title {
+    font-weight: 600;
+    color: var(--klaim-text-dark);
+    display: block;
+    margin-bottom: 2px;
+}
+
+.claim-item-sub {
+    font-size: 0.775rem;
+    color: var(--klaim-text-muted);
+}
+
+.claim-btn-detail {
+    display: inline-block;
+    padding: 6px 14px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--klaim-maroon);
+    background-color: var(--klaim-cream-light);
+    border: 1px solid var(--klaim-border);
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.15s, color 0.15s;
+}
+
+.claim-btn-detail:hover {
+    background-color: var(--klaim-maroon);
+    color: #ffffff;
+    border-color: var(--klaim-maroon);
+}
+
+/* Badges */
+.badge-status-klaim {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    font-size: 0.775rem;
+    font-weight: 600;
+    border-radius: 9999px;
+    white-space: nowrap;
+}
+
+.badge-status-diajukan {
+    background-color: #fef3c7;
+    color: #92400e;
+    border: 1px solid #fde68a;
+}
+
+.badge-status-diterima {
+    background-color: #dcfce7;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+}
+
+.badge-status-ditolak {
+    background-color: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
+
+.badge-type-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-radius: 4px;
+    background-color: #f1f5f9;
+    color: #475569;
+}
+
+/* Pagination bar */
+.claims-pagination-bar {
+    padding: 16px 20px;
+    border-top: 1px solid #f1f5f9;
+    background-color: #ffffff;
+}
+
+/* ==========================================================================
+   5. Detail Klaim Saya (Show) & Stepper 4 Langkah (Figma Hal. 3)
+   ========================================================================== */
+
+.claim-detail-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+    margin-top: 20px;
+}
+
+.claim-stepper-card {
+    background: #ffffff;
+    border: 1px solid var(--klaim-border);
+    border-radius: var(--klaim-radius);
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.claim-stepper-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.claim-stepper-title {
+    font-family: var(--klaim-font-heading);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--klaim-maroon);
+    margin: 0;
+}
+
+.claim-stepper-sub {
+    font-family: var(--klaim-font-body);
+    font-size: 0.85rem;
+    color: var(--klaim-text-muted);
+    margin: 0 0 22px 0;
+}
+
+/* Stepper Track */
+.claim-stepper-track {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+.claim-step-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    flex: 1;
+    text-align: center;
+}
+
+.claim-step-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+    background-color: #f1f5f9;
+    color: #94a3b8;
+    border: 2px solid #cbd5e1;
+    margin-bottom: 8px;
+    transition: all 0.2s;
+}
+
+.claim-step-node.completed .claim-step-circle {
+    background-color: var(--klaim-maroon);
+    color: #ffffff;
+    border-color: var(--klaim-maroon);
+}
+
+.claim-step-node.active .claim-step-circle {
+    background-color: var(--klaim-yellow);
+    color: var(--klaim-maroon);
+    border-color: var(--klaim-yellow);
+    box-shadow: 0 0 0 4px rgba(255, 200, 0, 0.25);
+}
+
+.claim-step-node.rejected .claim-step-circle {
+    background-color: #ef4444;
+    color: #ffffff;
+    border-color: #ef4444;
+}
+
+.claim-step-label {
+    font-family: var(--klaim-font-body);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--klaim-text-dark);
+}
+
+.claim-step-date {
+    font-family: var(--klaim-font-body);
+    font-size: 0.725rem;
+    color: var(--klaim-text-muted);
+    margin-top: 2px;
+}
+
+.claim-step-connector {
+    position: absolute;
+    top: 18px;
+    left: 10%;
+    right: 10%;
+    height: 3px;
+    background-color: #e2e8f0;
+    z-index: 1;
+}
+
+.claim-step-connector-fill {
+    height: 100%;
+    background-color: var(--klaim-maroon);
+    transition: width 0.3s ease;
+}
+
+/* Detail Content Cards */
+.claim-info-card {
+    background: #ffffff;
+    border: 1px solid var(--klaim-border);
+    border-radius: var(--klaim-radius);
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.claim-info-card-title {
+    font-family: var(--klaim-font-heading);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--klaim-maroon);
+    margin: 0 0 16px 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.claim-dl {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    row-gap: 12px;
+    column-gap: 16px;
+    font-family: var(--klaim-font-body);
+    font-size: 0.875rem;
+    margin: 0;
+}
+
+.claim-dl dt {
+    font-weight: 600;
+    color: var(--klaim-text-muted);
+}
+
+.claim-dl dd {
+    color: var(--klaim-text-dark);
+    margin: 0;
+}
+
+.claim-evidence-box {
+    margin-top: 14px;
+    padding: 14px;
+    background-color: var(--klaim-cream-light);
+    border-radius: var(--klaim-radius-sm);
+    border: 1px solid var(--klaim-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.btn-view-evidence {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    font-size: 0.825rem;
+    font-weight: 600;
+    color: var(--klaim-maroon);
+    background-color: var(--klaim-yellow);
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.btn-view-evidence:hover {
+    background-color: var(--klaim-yellow-hover);
+}
+
+/* ==========================================================================
+   6. Responsivitas (Mobile Media Queries - NFR-09)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .info-steps-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .item-summary-strip {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 16px;
+    }
+
+    .item-summary-name {
+        white-space: normal;
+    }
+
+    .claim-card-body {
+        padding: 18px;
+    }
+
+    .claim-detail-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .claim-dl {
+        grid-template-columns: 1fr;
+        row-gap: 4px;
+    }
+
+    .claim-dl dd {
+        margin-bottom: 12px;
+    }
+
+    .claim-stepper-track {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 18px;
+    }
+
+    .claim-step-connector {
+        display: none;
+    }
+
+    .claim-step-node {
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+        text-align: left;
+        width: 100%;
+    }
+
+    .claim-step-circle {
+        margin-bottom: 0;
+        flex-shrink: 0;
+    }
+
+    .claim-evidence-box {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
