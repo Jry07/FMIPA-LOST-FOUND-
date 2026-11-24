@@ -1,0 +1,23 @@
+# Environments & vendor
+.env
+.env.*
+!.env.example
+/vendor
+/node_modules
+/framework/.env
+/framework/.env.*
+!/framework/.env.example
+/framework/vendor
+/framework/node_modules
+/framework/public/storage
+/framework/storage/*.key
+/framework/storage/pail
+/framework/public/build
+/framework/public/hot
+
+# System & IDE files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log
