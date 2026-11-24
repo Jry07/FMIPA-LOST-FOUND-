@@ -1,0 +1,673 @@
+/**
+ * Module CSS: auth-landing.css
+ * Modul M2: Autentikasi, Profil, Beranda, dan Cara Kerja
+ * Berpedoman pada Figma & SRS FMIPA Lost & Found
+ */
+
+/* ==========================================================================
+   1. Variabel & Reset Khusus Modul (Memanfaatkan variabel global app.css)
+   ========================================================================== */
+:root {
+    --m2-maroon: var(--maroon, #800000);
+    --m2-maroon-dark: var(--maroon-dark, #5c0000);
+    --m2-maroon-light: #9e1b1e;
+    --m2-yellow: var(--yellow, #f5a623);
+    --m2-yellow-hover: #e09214;
+    --m2-cream: var(--cream, #fbf6ef);
+    --m2-cream-dark: #f0e6d8;
+    --m2-white: #ffffff;
+    --m2-text-dark: #222222;
+    --m2-text-muted: #666666;
+    --m2-font-heading: var(--font-heading, 'Playfair Display', Georgia, serif);
+    --m2-font-body: var(--font-body, 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+}
+
+/* ==========================================================================
+   2. Layout Latar Hero (Maroon Building Background Overlay)
+   ========================================================================== */
+.m2-hero-wrapper {
+    position: relative;
+    min-height: calc(100vh - 72px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--m2-maroon);
+    background-image: 
+        linear-gradient(rgba(128, 0, 0, 0.78), rgba(100, 0, 0, 0.85)),
+        url('/images/gedung-fmipa.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 3rem 1.5rem;
+    box-sizing: border-box;
+}
+
+.m2-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ==========================================================================
+   3. Beranda Tamu & Login (Hero Content)
+   ========================================================================== */
+.m2-hero-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+.m2-hero-text {
+    color: var(--m2-white);
+}
+
+.m2-hero-title {
+    font-family: var(--m2-font-heading);
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1.25rem;
+    color: var(--m2-white);
+}
+
+.m2-hero-desc {
+    font-family: var(--m2-font-body);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 2rem;
+    max-width: 520px;
+}
+
+.m2-hero-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Keadaan Beranda Login (Tengah Terpusat) */
+.m2-hero-centered {
+    max-width: 760px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.m2-hero-centered .m2-hero-title {
+    font-size: 3.25rem;
+    margin-bottom: 1rem;
+}
+
+.m2-hero-centered .m2-hero-desc {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1.15rem;
+    margin-bottom: 2.25rem;
+}
+
+.m2-hero-centered .m2-hero-actions {
+    justify-content: center;
+}
+
+/* ==========================================================================
+   4. Tombol Khas (Yellow & Cream Pill Buttons)
+   ========================================================================== */
+.m2-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 2rem;
+    font-family: var(--m2-font-body);
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 9999px;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    border: none;
+    cursor: pointer;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.m2-btn-yellow {
+    background-color: var(--m2-yellow);
+    color: #3b2100;
+    box-shadow: 0 4px 14px rgba(245, 166, 35, 0.4);
+}
+
+.m2-btn-yellow:hover {
+    background-color: var(--m2-yellow-hover);
+    color: #2b1700;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(245, 166, 35, 0.5);
+}
+
+.m2-btn-cream {
+    background-color: var(--m2-cream);
+    color: var(--m2-maroon);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+}
+
+.m2-btn-cream:hover {
+    background-color: #ffffff;
+    color: var(--m2-maroon-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+}
+
+.m2-btn-block {
+    width: 100%;
+}
+
+/* ==========================================================================
+   5. Lingkaran Logo Bercahaya (Circular Glow Badge Sesuai Figma)
+   ========================================================================== */
+.m2-badge-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.m2-circle-badge {
+    position: relative;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0.38) 60%, rgba(255, 255, 255, 0.05) 100%);
+    box-shadow: 0 0 60px rgba(255, 255, 255, 0.35);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 1.5rem;
+    box-sizing: border-box;
+}
+
+.m2-badge-text-fmipa {
+    font-family: var(--m2-font-body);
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--m2-maroon);
+    letter-spacing: -1px;
+    line-height: 1;
+    margin-bottom: 0.25rem;
+}
+
+.m2-badge-text-lostfound {
+    font-family: var(--m2-font-heading);
+    font-size: 2.85rem;
+    font-weight: 700;
+    color: var(--m2-yellow);
+    line-height: 1.1;
+    text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.25);
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.35rem;
+}
+
+.m2-badge-ampersand {
+    font-family: var(--m2-font-heading);
+    font-style: italic;
+    color: var(--m2-maroon);
+    font-size: 2.2rem;
+}
+
+/* ==========================================================================
+   6. Kartu Kaca Semi-Transparan (Glassmorphism untuk Auth Masuk & Daftar)
+   ========================================================================== */
+.m2-glass-card {
+    background: rgba(255, 255, 255, 0.90);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-radius: 24px;
+    padding: 2.25rem 2.5rem;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+    width: 100%;
+    max-width: 440px;
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+
+.m2-card-header {
+    text-align: center;
+    margin-bottom: 1.75rem;
+}
+
+.m2-card-title {
+    font-family: var(--m2-font-heading);
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--m2-maroon);
+    margin: 0 0 0.5rem 0;
+}
+
+.m2-card-subtitle {
+    font-family: var(--m2-font-body);
+    font-size: 0.9rem;
+    color: var(--m2-text-muted);
+    margin: 0;
+}
+
+.m2-card-subtitle a {
+    color: var(--m2-maroon);
+    font-weight: 600;
+    text-decoration: underline;
+    transition: color 0.2s;
+}
+
+.m2-card-subtitle a:hover {
+    color: var(--m2-maroon-dark);
+}
+
+/* ==========================================================================
+   7. Form Controls (Input & Label)
+   ========================================================================== */
+.m2-form-group {
+    margin-bottom: 1.25rem;
+}
+
+.m2-form-label {
+    display: block;
+    font-family: var(--m2-font-body);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #333333;
+    margin-bottom: 0.4rem;
+}
+
+.m2-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.m2-form-control {
+    width: 100%;
+    height: 44px;
+    padding: 0.6rem 1rem;
+    font-family: var(--m2-font-body);
+    font-size: 0.95rem;
+    color: var(--m2-text-dark);
+    background-color: var(--m2-white);
+    border: 1.5px solid #e2e8f0;
+    border-radius: 12px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+}
+
+.m2-form-control:focus {
+    border-color: var(--m2-maroon);
+    box-shadow: 0 0 0 3px rgba(128, 0, 0, 0.12);
+}
+
+.m2-form-control.is-invalid {
+    border-color: #dc3545;
+    background-color: #fff9f9;
+}
+
+.m2-form-control:disabled,
+.m2-form-control[readonly] {
+    background-color: #f8fafc;
+    color: #64748b;
+    border-color: #e2e8f0;
+    cursor: not-allowed;
+}
+
+.m2-input-wrapper .m2-form-control {
+    padding-right: 2.75rem;
+}
+
+.m2-btn-toggle-pw {
+    position: absolute;
+    right: 0.75rem;
+    background: transparent;
+    border: none;
+    color: #718096;
+    cursor: pointer;
+    padding: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+}
+
+.m2-btn-toggle-pw:hover {
+    color: var(--m2-maroon);
+}
+
+.m2-error-text {
+    display: block;
+    font-family: var(--m2-font-body);
+    font-size: 0.8rem;
+    color: #dc3545;
+    margin-top: 0.35rem;
+}
+
+.m2-form-check {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--m2-font-body);
+    font-size: 0.85rem;
+    color: #4a5568;
+    margin-bottom: 1.25rem;
+}
+
+.m2-form-check input[type="checkbox"] {
+    accent-color: var(--m2-maroon);
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+/* ==========================================================================
+   8. Notifikasi & Alert
+   ========================================================================== */
+.m2-alert {
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    font-family: var(--m2-font-body);
+    font-size: 0.875rem;
+    margin-bottom: 1.25rem;
+    line-height: 1.4;
+}
+
+.m2-alert-success {
+    background-color: #def7ec;
+    color: #03543f;
+    border: 1px solid #bcf0da;
+}
+
+.m2-alert-danger {
+    background-color: #fde8e8;
+    color: #9b1c1c;
+    border: 1px solid #fbd5d5;
+}
+
+/* ==========================================================================
+   9. Halaman Cara Kerja (Sesuai Figma hal. 5/6)
+   ========================================================================== */
+.m2-page-cara-kerja {
+    background-color: var(--m2-cream);
+    min-height: calc(100vh - 72px);
+    padding: 3.5rem 1.5rem;
+    box-sizing: border-box;
+}
+
+.m2-ck-header {
+    margin-bottom: 2.75rem;
+}
+
+.m2-ck-title {
+    font-family: var(--m2-font-heading);
+    font-size: 2.75rem;
+    font-weight: 700;
+    color: var(--m2-maroon);
+    margin: 0 0 0.5rem 0;
+}
+
+.m2-ck-subtitle {
+    font-family: var(--m2-font-body);
+    font-size: 1rem;
+    color: var(--m2-text-muted);
+    margin: 0;
+}
+
+.m2-ck-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 3.5rem;
+}
+
+.m2-ck-card {
+    background-color: var(--m2-white);
+    border-radius: 20px;
+    padding: 1.75rem;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.m2-ck-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+}
+
+.m2-ck-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.75rem;
+}
+
+.m2-ck-icon {
+    width: 32px;
+    height: 32px;
+    color: var(--m2-maroon);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.m2-ck-number {
+    font-family: var(--m2-font-body);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #cfc5b8;
+}
+
+.m2-ck-card-title {
+    font-family: var(--m2-font-heading);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--m2-maroon);
+    margin: 0 0 0.75rem 0;
+    line-height: 1.3;
+}
+
+.m2-ck-card-desc {
+    font-family: var(--m2-font-body);
+    font-size: 0.875rem;
+    color: #555555;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Banner Bawah Cara Kerja */
+.m2-ck-banner {
+    background-color: var(--m2-maroon);
+    background-image: 
+        linear-gradient(rgba(128, 0, 0, 0.88), rgba(90, 0, 0, 0.92)),
+        url('/images/gedung-fmipa.jpg');
+    background-size: cover;
+    background-position: center;
+    border-radius: 20px;
+    padding: 2.25rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--m2-white);
+    gap: 2rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.m2-ck-banner-title {
+    font-family: var(--m2-font-heading);
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0 0 0.4rem 0;
+    color: var(--m2-white);
+}
+
+.m2-ck-banner-desc {
+    font-family: var(--m2-font-body);
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.85);
+    margin: 0;
+}
+
+/* ==========================================================================
+   10. Halaman Kelola Profil (Dashboard View)
+   ========================================================================== */
+.m2-profile-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1rem 0;
+}
+
+.m2-profile-header {
+    margin-bottom: 2rem;
+}
+
+.m2-profile-breadcrumb {
+    font-family: var(--m2-font-body);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--m2-maroon);
+    margin-bottom: 0.25rem;
+}
+
+.m2-profile-title {
+    font-family: var(--m2-font-heading);
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--m2-maroon);
+    margin: 0 0 0.5rem 0;
+}
+
+.m2-profile-subtitle {
+    font-family: var(--m2-font-body);
+    font-size: 0.95rem;
+    color: var(--m2-text-muted);
+    margin: 0;
+}
+
+.m2-profile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 2rem;
+}
+
+.m2-profile-card {
+    background: var(--m2-white);
+    border-radius: 16px;
+    padding: 1.75rem;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+    border: 1px solid #f0f0f0;
+}
+
+.m2-profile-card-title {
+    font-family: var(--m2-font-heading);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--m2-maroon);
+    margin: 0 0 1.25rem 0;
+    padding-bottom: 0.75rem;
+    border-bottom: 1.5px solid #f5f5f5;
+}
+
+.m2-readonly-badge {
+    display: inline-block;
+    padding: 0.2rem 0.55rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    border-radius: 6px;
+    background-color: #f1f5f9;
+    color: #475569;
+    margin-left: 0.4rem;
+}
+
+.m2-role-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.35rem 0.85rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border-radius: 9999px;
+    background-color: #fee2e2;
+    color: var(--m2-maroon);
+    text-transform: capitalize;
+}
+
+/* ==========================================================================
+   11. Responsivitas (NFR-09)
+   ========================================================================== */
+@media (max-width: 992px) {
+    .m2-hero-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+        text-align: center;
+    }
+
+    .m2-hero-desc {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .m2-hero-actions {
+        justify-content: center;
+    }
+
+    .m2-ck-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .m2-profile-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .m2-hero-title {
+        font-size: 2.25rem;
+    }
+
+    .m2-hero-centered .m2-hero-title {
+        font-size: 2.35rem;
+    }
+
+    .m2-glass-card {
+        padding: 1.75rem 1.25rem;
+        border-radius: 18px;
+    }
+
+    .m2-circle-badge {
+        width: 250px;
+        height: 250px;
+    }
+
+    .m2-badge-text-fmipa {
+        font-size: 1.9rem;
+    }
+
+    .m2-badge-text-lostfound {
+        font-size: 2.15rem;
+    }
+
+    .m2-ck-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .m2-ck-banner {
+        flex-direction: column;
+        text-align: center;
+        padding: 2rem 1.5rem;
+    }
+
+    .m2-ck-banner .m2-btn {
+        width: 100%;
+    }
+}

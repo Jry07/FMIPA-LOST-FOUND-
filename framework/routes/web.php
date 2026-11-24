@@ -5,14 +5,8 @@ use Illuminate\Support\Facades\Route;
 // ============================================================================
 // [FASE-0-CORE] - Rute Pondasi, Helper Dev & Halaman Bersama
 // ============================================================================
-Route::get('/', function () {
-    return view('pages.beranda-tamu');
-})->name('home');
-
-Route::get('/cara-kerja', function () {
-    return view('pages.cara-kerja');
-})->name('cara-kerja');
-
+Route::get('/', [\App\Http\Controllers\PageController::class, 'home'])->name('home');
+Route::get('/cara-kerja', [\App\Http\Controllers\PageController::class, 'caraKerja'])->name('cara-kerja');
 Route::get('/terima-kasih', function () {
     return view('pages.terima-kasih');
 })->name('thanks');
@@ -65,20 +59,29 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
 // ============================================================================
 // [M2-AUTH] - Modul Autentikasi & Akun Pengguna
+// >>> [M2-AUTH] START
 // ============================================================================
 Route::middleware('guest')->group(function () {
     Route::get('/login', [\App\Http\Controllers\Auth\LoginController::class, 'create'])->name('login');
     Route::post('/login', [\App\Http\Controllers\Auth\LoginController::class, 'store'])->name('login.store');
     Route::get('/register', [\App\Http\Controllers\Auth\RegisterController::class, 'create'])->name('register');
     Route::post('/register', [\App\Http\Controllers\Auth\RegisterController::class, 'store'])->name('register.store');
+
+    // Alias URL bahasa Indonesia
+    Route::get('/masuk', [\App\Http\Controllers\Auth\LoginController::class, 'create']);
+    Route::get('/daftar', [\App\Http\Controllers\Auth\RegisterController::class, 'create']);
 });
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [\App\Http\Controllers\Auth\LoginController::class, 'destroy'])->name('logout');
+    Route::post('/keluar', [\App\Http\Controllers\Auth\LoginController::class, 'destroy']);
     Route::get('/profile', [\App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/profil', [\App\Http\Controllers\ProfileController::class, 'edit']);
     Route::put('/profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profil', [\App\Http\Controllers\ProfileController::class, 'update']);
     Route::put('/profile/password', [\App\Http\Controllers\ProfileController::class, 'updatePassword'])->name('profile.password');
 });
+// <<< [M2-AUTH] END
 
 // ============================================================================
 // [M3-LAPORAN] - Modul Pelaporan Barang Lost & Found

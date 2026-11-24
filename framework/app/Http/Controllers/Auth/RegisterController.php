@@ -3,20 +3,57 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\Auth\RegisterRequest;
+use App\Models\User;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\View\View;
 
 // [M2-AUTH]
 class RegisterController extends Controller
 {
-    public function create()
+    /**
+     * Tampilkan formulir registrasi akun pengguna baru.
+     */
+    public function create(): View
     {
         return view('auth.register');
     }
 
-    public function store(Request $request)
+    public function showRegistrationForm(): View
     {
-        // Stub logika registrasi akun modul M2
-        return redirect()->route('login')->with('info', 'Stub [M2-AUTH]: Logika proses registrasi akan diimplementasikan pada modul M2.');
+        return $this->create();
+    }
+
+    /**
+     * Simpan akun pengguna baru ke basis data.
+     * Sesuai SRS FR-01:
+     * - Role otomatis disetel ke User::ROLE_PENGGUNA (tidak mengambil dari input).
+     * - Kata sandi di-hash menggunakan bcrypt.
+     * - Redirect ke halaman login dengan pesan sukses.
+     */
+    public function store(RegisterRequest $request): RedirectResponse
+    {
+        $rolePengguna = defined(User::class . '::ROLE_PENGGUNA')
+            ? User::ROLE_PENGGUNA
+            : 'pengguna';
+
+        User::create([
+            'name' => trim($request->name),
+            'email' => strtolower(trim($request->email)),
+            'nim' => strtoupper(trim($request->nim)),
+            'role' => $rolePengguna,
+            'password' => Hash::make($request->password),
+        ]);
+
+        return redirect()
+            ->route('login')
+            ->with('success', 'Registrasi berhasil! Silakan masuk dengan akun Anda.');
+    }
+
+    public function register(RegisterRequest $request): RedirectResponse
+    {
+        return $this->store($request);
     }
 }
 // [/M2-AUTH]
