@@ -3,44 +3,85 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\Admin\StoreCategoryRequest;
+use App\Http\Requests\Admin\UpdateCategoryRequest;
+use App\Models\Category;
 
 // [M1-ADMIN]
 class CategoryController extends Controller
 {
+    /**
+     * Daftar semua kategori beserta jumlah laporan yang memakainya.
+     */
     public function index()
     {
-        return view('admin.categories.index');
+        $categories = Category::withCount('items')
+            ->orderBy('name')
+            ->paginate(15);
+
+        return view('admin.categories.index', compact('categories'));
     }
 
+    /**
+     * Formulir tambah kategori baru.
+     */
     public function create()
     {
         return view('admin.categories.create');
     }
 
-    public function store(Request $request)
+    /**
+     * Simpan kategori baru ke database.
+     */
+    public function store(StoreCategoryRequest $request)
     {
-        return redirect()->route('admin.categories.index')->with('success', 'Stub [M1-ADMIN]: Kategori berhasil ditambahkan.');
+        Category::create($request->validated());
+
+        return redirect()
+            ->route('admin.categories.index')
+            ->with('success', 'Kategori berhasil ditambahkan.');
     }
 
-    public function show(string $id)
+    /**
+     * Formulir ubah kategori (tidak ada halaman show tersendiri per kontrak M1).
+     */
+    public function edit(Category $category)
     {
-        return view('admin.categories.show', compact('id'));
+        $category->loadCount('items');
+
+        return view('admin.categories.edit', compact('category'));
     }
 
-    public function edit(string $id)
+    /**
+     * Simpan perubahan kategori.
+     */
+    public function update(UpdateCategoryRequest $request, Category $category)
     {
-        return view('admin.categories.edit', compact('id'));
+        $category->update($request->validated());
+
+        return redirect()
+            ->route('admin.categories.index')
+            ->with('success', 'Kategori berhasil diperbarui.');
     }
 
-    public function update(Request $request, string $id)
+    /**
+     * Hapus kategori, hanya jika tidak dipakai oleh laporan manapun.
+     */
+    public function destroy(Category $category)
     {
-        return redirect()->route('admin.categories.index')->with('success', 'Stub [M1-ADMIN]: Kategori berhasil diperbarui.');
-    }
+        $jumlahLaporan = $category->items()->count();
 
-    public function destroy(string $id)
-    {
-        return redirect()->route('admin.categories.index')->with('success', 'Stub [M1-ADMIN]: Kategori berhasil dihapus.');
+        if ($jumlahLaporan > 0) {
+            return redirect()
+                ->route('admin.categories.index')
+                ->with('error', "Kategori masih dipakai oleh {$jumlahLaporan} laporan dan tidak dapat dihapus.");
+        }
+
+        $category->delete();
+
+        return redirect()
+            ->route('admin.categories.index')
+            ->with('success', 'Kategori berhasil dihapus.');
     }
 }
 // [/M1-ADMIN]

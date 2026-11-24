@@ -1,0 +1,391 @@
+/* ============================================================
+   public/css/modules/admin.css
+   CSS khusus modul M1-ADMIN
+   Pakai variabel dari app.css: var(--maroon), var(--yellow), var(--cream), dll.
+   ============================================================ */
+
+/* ---- Kartu Aksi Cepat ---- */
+.admin-quick-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+}
+
+.quick-action-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.quick-action-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    text-decoration: none;
+}
+
+.quick-action-warning {
+    background: linear-gradient(135deg, #fff7e6, #fff3cc);
+    border-left: 4px solid var(--yellow);
+}
+
+.quick-action-info {
+    background: linear-gradient(135deg, #e8f4fd, #d6eaf8);
+    border-left: 4px solid #3498db;
+}
+
+.qa-icon  { font-size: 2rem; }
+
+.qa-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.qa-count {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--maroon);
+    line-height: 1;
+}
+
+.qa-label {
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 0.2rem;
+}
+
+.qa-arrow {
+    font-size: 1.2rem;
+    color: #aaa;
+}
+
+/* ---- Grid Statistik ---- */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1rem;
+}
+
+.stat-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 1.25rem 1rem;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    border-top: 4px solid transparent;
+    transition: transform 0.2s ease;
+}
+
+.stat-card:hover { transform: translateY(-2px); }
+
+.stat-icon  { font-size: 1.8rem; margin-bottom: 0.5rem; }
+.stat-value { font-size: 2rem; font-weight: 700; color: var(--maroon); line-height: 1; }
+.stat-label { font-size: 0.75rem; color: #777; margin-top: 0.3rem; }
+
+.stat-warning { border-top-color: var(--yellow); }
+.stat-success { border-top-color: #27ae60; }
+.stat-danger  { border-top-color: #e74c3c; }
+.stat-secondary { border-top-color: #95a5a6; }
+.stat-primary { border-top-color: var(--maroon); }
+.stat-dark    { border-top-color: #2c3e50; }
+
+/* ---- Grid 3 kolom untuk ringkasan ---- */
+.admin-row-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+/* ---- Card header krem ---- */
+.card-header-cream {
+    background: var(--cream);
+    padding: 0.75rem 1.25rem;
+    border-bottom: 1px solid #e0d0cc;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card-title-sm {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--maroon);
+    margin: 0;
+}
+
+.btn-sm-link {
+    font-size: 0.8rem;
+    color: var(--maroon);
+    text-decoration: none;
+}
+
+.btn-sm-link:hover { text-decoration: underline; }
+
+/* ---- Mini Stat (dalam card) ---- */
+.mini-stat {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 0.875rem;
+}
+
+.mini-stat:last-child { border-bottom: none; }
+.mini-label { color: #555; }
+.mini-value { font-weight: 600; color: var(--maroon); }
+
+/* ---- Tabel Admin ---- */
+.table-admin {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+}
+
+.table-admin thead th {
+    background: var(--cream);
+    color: var(--maroon);
+    font-weight: 600;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    white-space: nowrap;
+    border-bottom: 2px solid #d4b8b0;
+}
+
+.table-admin tbody tr {
+    border-bottom: 1px solid #f2f2f2;
+    transition: background 0.15s;
+}
+
+.table-admin tbody tr:hover { background: #fdf8f7; }
+.table-admin tbody td { padding: 0.7rem 1rem; vertical-align: middle; }
+
+.item-kode {
+    background: #f0f0f0;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: var(--maroon);
+}
+
+.badge-count {
+    background: var(--cream);
+    color: var(--maroon);
+    font-weight: 600;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+}
+
+/* ---- Tombol Aksi ---- */
+.action-group {
+    display: flex;
+    gap: 0.4rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-sm {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    transition: opacity 0.2s;
+}
+
+.btn-sm:hover { opacity: 0.85; text-decoration: none; }
+
+.btn-outline-maroon {
+    border: 1.5px solid var(--maroon);
+    color: var(--maroon);
+    background: transparent;
+}
+
+.btn-outline-maroon:hover { background: var(--maroon); color: #fff; }
+
+.btn-danger { background: #e74c3c; color: #fff; }
+.btn-disabled { background: #ddd; color: #999; cursor: not-allowed; }
+.btn-yellow { background: var(--yellow); color: #333; font-weight: 600; }
+
+/* ---- Baris diri sendiri ---- */
+.row-self { background: #fffdf0; }
+
+.badge-self {
+    display: inline-block;
+    background: var(--yellow);
+    color: #333;
+    font-size: 0.7rem;
+    padding: 1px 6px;
+    border-radius: 20px;
+    margin-left: 4px;
+    font-weight: 600;
+}
+
+/* ---- Badge Peran ---- */
+.role-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+.badge-role-admin   { background: #fdecea; color: #c0392b; }
+.badge-role-petugas { background: #eaf4fb; color: #2471a3; }
+.badge-role-pengguna { background: #eafaf1; color: #1e8449; }
+
+/* ---- Select Role + Form inline ---- */
+.role-form {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    justify-content: center;
+}
+
+.select-role {
+    padding: 4px 8px;
+    border: 1.5px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    color: #333;
+    background: #fff;
+    cursor: pointer;
+}
+
+.select-role:focus { outline: none; border-color: var(--maroon); }
+
+/* ---- Form Pencarian ---- */
+.search-form { }
+
+.search-group {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.search-input {
+    flex: 1;
+    min-width: 200px;
+    padding: 0.5rem 0.9rem;
+    border: 1.5px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--maroon);
+}
+
+.search-hint {
+    margin-top: 0.4rem;
+    font-size: 0.85rem;
+    color: #777;
+}
+
+/* ---- Form Kartu ---- */
+.form-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+    max-width: 640px;
+}
+
+.alert-info-box {
+    background: #eaf4fb;
+    border-left: 4px solid #3498db;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    color: #2471a3;
+    margin-bottom: 1.25rem;
+}
+
+.form-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+}
+
+/* ---- Tombol Utama (global di dashboard) ---- */
+.btn-maroon {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: var(--maroon);
+    color: #fff;
+    padding: 0.5rem 1.1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.btn-maroon:hover { background: #5b0000; color: #fff; text-decoration: none; }
+
+.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: #f5f5f5;
+    color: #555;
+    padding: 0.5rem 1.1rem;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    border: 1.5px solid #ddd;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.btn-secondary:hover { background: #eee; text-decoration: none; }
+
+/* ---- Responsif ---- */
+@media (max-width: 768px) {
+    .stats-grid        { grid-template-columns: repeat(2, 1fr); }
+    .admin-row-3       { grid-template-columns: 1fr; }
+    .admin-quick-actions { grid-template-columns: 1fr; }
+    .table-admin thead { display: none; }
+    .table-admin tbody tr {
+        display: block;
+        margin-bottom: 1rem;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        padding: 0.5rem;
+    }
+    .table-admin tbody td {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.4rem 0.5rem;
+        border-bottom: 1px solid #f5f5f5;
+    }
+    .table-admin tbody td:last-child { border-bottom: none; }
+    .role-form { flex-direction: column; }
+    .form-card { padding: 1.25rem; }
+}
+
+@media (max-width: 480px) {
+    .stats-grid { grid-template-columns: 1fr; }
+    .search-group { flex-direction: column; align-items: stretch; }
+}

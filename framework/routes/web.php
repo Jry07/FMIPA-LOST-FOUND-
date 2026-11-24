@@ -30,14 +30,38 @@ if (app()->environment('local')) {
 
 // ============================================================================
 // [M1-ADMIN] - Modul Admin Master Data, Akun & Statistik
+// >>> [M1-ADMIN] START
 // ============================================================================
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', fn () => view('admin.dashboard'))->name('dashboard');
-    Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
-    Route::resource('users', \App\Http\Controllers\Admin\UserController::class)->only(['index', 'update']);
+    // Dashboard Admin
+    Route::get('/', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'index'])
+        ->name('dashboard');
+
+    // FR-12 Kelola Kategori
+    Route::get('/kategori', [\App\Http\Controllers\Admin\CategoryController::class, 'index'])
+        ->name('categories.index');
+    Route::get('/kategori/buat', [\App\Http\Controllers\Admin\CategoryController::class, 'create'])
+        ->name('categories.create');
+    Route::post('/kategori', [\App\Http\Controllers\Admin\CategoryController::class, 'store'])
+        ->name('categories.store');
+    Route::get('/kategori/{category}/ubah', [\App\Http\Controllers\Admin\CategoryController::class, 'edit'])
+        ->name('categories.edit');
+    Route::put('/kategori/{category}', [\App\Http\Controllers\Admin\CategoryController::class, 'update'])
+        ->name('categories.update');
+    Route::delete('/kategori/{category}', [\App\Http\Controllers\Admin\CategoryController::class, 'destroy'])
+        ->name('categories.destroy');
+
+    // FR-13 Kelola Akun
+    Route::get('/akun', [\App\Http\Controllers\Admin\UserController::class, 'index'])
+        ->name('users.index');
+    Route::patch('/akun/{user}/role', [\App\Http\Controllers\Admin\UserController::class, 'updateRole'])
+        ->name('users.role');
+
+    // Stub halaman statistik & log (akan diisi modul lain jika perlu)
     Route::get('/statistics', fn () => view('admin.statistics'))->name('statistics');
     Route::get('/logs', fn () => view('admin.logs'))->name('logs');
 });
+// <<< [M1-ADMIN] END
 
 // ============================================================================
 // [M2-AUTH] - Modul Autentikasi & Akun Pengguna
