@@ -2,11 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 
+// ============================================================================
+// [FASE-0-CORE] - Rute Pondasi, Helper Dev & Halaman Bersama
+// ============================================================================
 Route::get('/', function () {
-<<<<<<< HEAD
-    return view('welcome');
-});
-=======
     return view('pages.beranda-tamu');
 })->name('home');
 
@@ -142,4 +141,3 @@ Route::middleware(['auth', 'role:admin,petugas'])->prefix('verifikasi')->name('v
 
 Route::middleware(['auth', 'role:petugas'])->get('/petugas/dashboard', fn () => view('petugas.dashboard'))
     ->name('petugas.dashboard');
->>>>>>> f6978cc (Selesai mengerjakan dokumen dan pondasi fase 0)
