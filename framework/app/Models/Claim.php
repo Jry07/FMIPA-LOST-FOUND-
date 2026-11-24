@@ -81,6 +81,11 @@ class Claim extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function submitter(): BelongsTo
+    {
+        return $this->user();
+    }
+
     public function verifier(): BelongsTo
     {
         return $this->belongsTo(User::class, 'verifier_id');

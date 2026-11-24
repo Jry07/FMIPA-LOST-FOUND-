@@ -96,6 +96,11 @@ class Item extends Model
         return $this->hasMany(ItemStatusHistory::class);
     }
 
+    public function histories(): HasMany
+    {
+        return $this->statusHistories();
+    }
+
     public function handoverRecord(): HasOne
     {
         return $this->hasOne(HandoverRecord::class);

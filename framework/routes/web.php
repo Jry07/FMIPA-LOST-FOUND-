@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 // ============================================================================
 Route::get('/', [\App\Http\Controllers\PageController::class, 'home'])->name('home');
 Route::get('/cara-kerja', [\App\Http\Controllers\PageController::class, 'caraKerja'])->name('cara-kerja');
+Route::get('/how-it-works', [\App\Http\Controllers\PageController::class, 'caraKerja'])->name('how-it-works');
 Route::get('/terima-kasih', function () {
     return view('pages.terima-kasih');
 })->name('thanks');
@@ -159,26 +160,52 @@ Route::middleware(['auth'])->group(function () {
 
 // ============================================================================
 // [M6-VERIFIKASI] - Modul Verifikasi Laporan, Klaim & Serah Terima
+// >>> [M6-VERIFIKASI] START
 // ============================================================================
-Route::middleware(['auth', 'role:admin,petugas'])->prefix('verifikasi')->name('verification.')->group(function () {
-    // Verifikasi Laporan Barang (Admin)
-    Route::get('/laporan', [\App\Http\Controllers\Verification\ItemVerificationController::class, 'index'])->name('items.index');
-    Route::get('/laporan/{item}', [\App\Http\Controllers\Verification\ItemVerificationController::class, 'show'])->name('items.show');
-    Route::post('/laporan/{item}/approve', [\App\Http\Controllers\Verification\ItemVerificationController::class, 'approve'])->name('items.approve');
-    Route::post('/laporan/{item}/reject', [\App\Http\Controllers\Verification\ItemVerificationController::class, 'reject'])->name('items.reject');
+// Verifikasi Laporan Barang (Admin)
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/verifikasi/laporan', [\App\Http\Controllers\Verifikasi\ReportVerificationController::class, 'index'])->name('verification.items.index');
+    Route::get('/verifikasi/laporan-masuk', [\App\Http\Controllers\Verifikasi\ReportVerificationController::class, 'index'])->name('verifikasi.reports.index');
 
-    // Verifikasi Klaim & Penemuan (Admin & Petugas)
-    Route::get('/klaim', [\App\Http\Controllers\Verification\ClaimVerificationController::class, 'index'])->name('claims.index');
-    Route::get('/klaim/{claim}', [\App\Http\Controllers\Verification\ClaimVerificationController::class, 'show'])->name('claims.show');
-    Route::post('/klaim/{claim}/approve', [\App\Http\Controllers\Verification\ClaimVerificationController::class, 'approve'])->name('claims.approve');
-    Route::post('/klaim/{claim}/reject', [\App\Http\Controllers\Verification\ClaimVerificationController::class, 'reject'])->name('claims.reject');
+    Route::get('/verifikasi/laporan/{item}', [\App\Http\Controllers\Verifikasi\ReportVerificationController::class, 'show'])->name('verification.items.show');
+    Route::get('/verifikasi/laporan-detail/{item}', [\App\Http\Controllers\Verifikasi\ReportVerificationController::class, 'show'])->name('verifikasi.reports.show');
 
-    // Serah Terima Barang (Petugas)
-    Route::get('/serah-terima', [\App\Http\Controllers\Verification\HandoverController::class, 'index'])->name('handover.index');
-    Route::get('/serah-terima/catat/{item}', [\App\Http\Controllers\Verification\HandoverController::class, 'create'])->name('handover.create');
-    Route::post('/serah-terima/catat/{item}', [\App\Http\Controllers\Verification\HandoverController::class, 'store'])->name('handover.store');
-    Route::get('/serah-terima/{handover}', [\App\Http\Controllers\Verification\HandoverController::class, 'show'])->name('handover.show');
+    Route::match(['post', 'patch'], '/verifikasi/laporan/{item}/approve', [\App\Http\Controllers\Verifikasi\ReportVerificationController::class, 'approve'])->name('verification.items.approve');
+    Route::patch('/verifikasi/laporan/{item}/setujui', [\App\Http\Controllers\Verifikasi\ReportVerificationController::class, 'approve'])->name('verifikasi.reports.approve');
+
+    Route::match(['post', 'patch'], '/verifikasi/laporan/{item}/reject', [\App\Http\Controllers\Verifikasi\ReportVerificationController::class, 'reject'])->name('verification.items.reject');
+    Route::patch('/verifikasi/laporan/{item}/tolak', [\App\Http\Controllers\Verifikasi\ReportVerificationController::class, 'reject'])->name('verifikasi.reports.reject');
+});
+
+// Verifikasi Klaim & Penemuan (Admin & Petugas)
+Route::middleware(['auth', 'role:admin,petugas'])->group(function () {
+    Route::get('/verifikasi/klaim', [\App\Http\Controllers\Verifikasi\ClaimVerificationController::class, 'index'])->name('verification.claims.index');
+    Route::get('/verifikasi/pengajuan', [\App\Http\Controllers\Verifikasi\ClaimVerificationController::class, 'index'])->name('verifikasi.claims.index');
+
+    Route::get('/verifikasi/klaim/{claim}', [\App\Http\Controllers\Verifikasi\ClaimVerificationController::class, 'show'])->name('verification.claims.show');
+    Route::get('/verifikasi/pengajuan/{claim}', [\App\Http\Controllers\Verifikasi\ClaimVerificationController::class, 'show'])->name('verifikasi.claims.show');
+
+    Route::match(['post', 'patch'], '/verifikasi/klaim/{claim}/approve', [\App\Http\Controllers\Verifikasi\ClaimVerificationController::class, 'approve'])->name('verification.claims.approve');
+    Route::patch('/verifikasi/pengajuan/{claim}/terima', [\App\Http\Controllers\Verifikasi\ClaimVerificationController::class, 'accept'])->name('verifikasi.claims.accept');
+
+    Route::match(['post', 'patch'], '/verifikasi/klaim/{claim}/reject', [\App\Http\Controllers\Verifikasi\ClaimVerificationController::class, 'reject'])->name('verification.claims.reject');
+    Route::patch('/verifikasi/pengajuan/{claim}/tolak', [\App\Http\Controllers\Verifikasi\ClaimVerificationController::class, 'reject'])->name('verifikasi.claims.reject');
+});
+
+// Serah Terima Barang (Petugas)
+Route::middleware(['auth', 'role:petugas'])->group(function () {
+    Route::get('/verifikasi/serah-terima', [\App\Http\Controllers\Verifikasi\HandoverController::class, 'index'])->name('verification.handover.index');
+    Route::get('/serah-terima', [\App\Http\Controllers\Verifikasi\HandoverController::class, 'index'])->name('handovers.index');
+
+    Route::get('/verifikasi/serah-terima/catat/{claim}', [\App\Http\Controllers\Verifikasi\HandoverController::class, 'create'])->name('verification.handover.create');
+    Route::get('/serah-terima/{claim}', [\App\Http\Controllers\Verifikasi\HandoverController::class, 'create'])->name('handovers.create');
+
+    Route::post('/verifikasi/serah-terima/catat/{claim}', [\App\Http\Controllers\Verifikasi\HandoverController::class, 'store'])->name('verification.handover.store');
+    Route::post('/serah-terima/{claim}', [\App\Http\Controllers\Verifikasi\HandoverController::class, 'store'])->name('handovers.store');
+
+    Route::get('/verifikasi/serah-terima/detail/{handover}', [\App\Http\Controllers\Verifikasi\HandoverController::class, 'show'])->name('verification.handover.show');
 });
 
 Route::middleware(['auth', 'role:petugas'])->get('/petugas/dashboard', fn () => view('petugas.dashboard'))
     ->name('petugas.dashboard');
+// <<< [M6-VERIFIKASI] END

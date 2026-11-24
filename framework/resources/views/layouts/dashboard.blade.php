@@ -39,6 +39,7 @@
             <main class="dash-content">
                 <x-alert />
                 @yield('content')
+                @yield('dashboard')
             </main>
         </div>
     </div>
