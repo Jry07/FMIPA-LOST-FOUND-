@@ -89,12 +89,12 @@ Admin verifikasi laporan ──► Ditolak
 
 ## 🚀 Instalasi dan Menjalankan Proyek
 
-> **Prasyarat:** PHP, Composer, MySQL, dan Node.js/npm (jika aset front end memerlukan build). Sesuaikan versi dengan `composer.json` pada repo ini.
+> **Prasyarat:** PHP, Composer, dan MySQL.
 
 ```bash
 # 1. Clone repositori
-git clone https://github.com/<username>/<nama-repo>.git
-cd <nama-repo>
+git clone https://github.com/Jry07/FMIPA-LOST-FOUND-.git
+cd FMIPA-LOST-FOUND-
 
 # 2. Install dependensi PHP
 composer install
@@ -161,8 +161,6 @@ Spesifikasi lengkap (kebutuhan fungsional, non-fungsional, Use Case, Class Diagr
 
 📎 [SRS FMIPA Lost & Found (PDF)](SRS_FMIPA_Lost_and_Found_Kelompok_2_v1.0.pdf)
 
-> Sesuaikan path tautan di atas dengan lokasi file SRS pada repo Anda.
-
 ## 👨‍💻 Tim Pengembang (Kelompok 2)
 
 | Nama | NIM |
@@ -180,4 +178,4 @@ Universitas Halu Oleo, 2026
 
 ## 📝 Lisensi
 
-Proyek ini dibuat untuk keperluan akademik (Tugas Praktik Rekayasa Perangkat Lunak). Tentukan lisensi sesuai kebutuhan, misalnya MIT, dengan menambahkan file `LICENSE`.
+Proyek ini dibuat untuk keperluan akademik (Tugas Praktik Mata Kuliah Rekayasa Perangkat Lunak).
