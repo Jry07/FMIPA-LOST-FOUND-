@@ -3,9 +3,9 @@
 <div class="item-card">
     <div class="item-card-image-wrap">
         @if($item->photo)
-            <img src="{{ asset('storage/' . $item->photo) }}" alt="{{ $item->name }}" class="item-card-image">
+            <img src="{{ asset('storage/' . $item->photo) }}" alt="{{ $item->name }}" class="item-card-image" onerror="this.onerror=null;this.src='{{ asset('images/logo.svg') }}';">
         @else
-            <img src="{{ asset('storage/items/placeholder.svg') }}" alt="Placeholder" class="item-card-image">
+            <img src="{{ asset('images/logo.svg') }}" alt="Placeholder" class="item-card-image">
         @endif
         <div class="item-card-badges">
             <x-type-badge :type="$item->type" />

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,7 +17,9 @@ class HandoverRecord extends Model
         'officer_id',
         'receiver_id',
         'notes',
+        'return_note',
         'handover_date',
+        'handed_over_at',
     ];
 
     protected function casts(): array
@@ -24,6 +27,28 @@ class HandoverRecord extends Model
         return [
             'handover_date' => 'datetime',
         ];
+    }
+
+    /**
+     * Alias handed_over_at <=> handover_date
+     */
+    protected function handedOverAt(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => isset($this->attributes['handover_date']) ? $this->asDateTime($this->attributes['handover_date']) : null,
+            set: fn ($value) => ['handover_date' => $value]
+        );
+    }
+
+    /**
+     * Alias return_note <=> notes
+     */
+    protected function returnNote(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->attributes['notes'] ?? null,
+            set: fn ($value) => ['notes' => $value]
+        );
     }
 
     public function item(): BelongsTo

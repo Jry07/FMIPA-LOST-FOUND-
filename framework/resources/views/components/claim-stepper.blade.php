@@ -1,9 +1,33 @@
-@props(['step' => 1, 'status' => 'diajukan'])
+@props([
+    'step' => null,
+    'status' => null,
+    'claim' => null,
+])
 
 @php
+    if ($claim) {
+        $status = $status ?? $claim->status;
+        if (is_null($step)) {
+            $statusLower = strtolower($claim->status ?? '');
+            $hasHandover = (isset($claim->item) && $claim->item->handoverRecord) || $claim->handoverRecord || (isset($claim->item) && $claim->item->status === 'selesai');
+            if ($statusLower === 'ditolak') {
+                $step = 2;
+            } elseif ($hasHandover) {
+                $step = 4;
+            } elseif ($statusLower === 'diterima') {
+                $step = 3;
+            } else {
+                $step = 2;
+            }
+        }
+    }
+
+    $step = $step ?? 1;
+    $status = $status ?? 'diajukan';
+
     $steps = [
         1 => ['title' => 'Pengajuan Diajukan', 'desc' => 'Klaim/laporan penemuan tersimpan di sistem'],
-        2 => ['title' => 'Verifikasi Berkas', 'desc' => 'Pemeriksaan bukti kepemilikan oleh petugas'],
+        2 => ['title' => 'Verifikasi Berkas & Bukti', 'desc' => 'Pemeriksaan bukti kepemilikan oleh petugas'],
         3 => ['title' => 'Verifikasi Fisik & Serah Terima', 'desc' => 'Pencocokan fisik di pos dan penyerahan barang'],
         4 => ['title' => 'Selesai', 'desc' => 'Barang telah berhasil diserahterimakan'],
     ];

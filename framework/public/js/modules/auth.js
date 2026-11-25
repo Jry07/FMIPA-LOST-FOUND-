@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
         </svg>
     `;
 
-    const toggleButtons = document.querySelectorAll('[data-toggle="password"], .btn-toggle-password');
+    const toggleButtons = document.querySelectorAll('[data-toggle="password"], .btn-toggle-password, .m2-btn-toggle-pw');
 
     toggleButtons.forEach(function (button) {
         button.addEventListener('click', function (e) {
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (targetId) {
                 input = document.getElementById(targetId);
             } else {
-                const parentGroup = button.closest('.input-password-wrapper') || button.closest('.form-group');
+                const parentGroup = button.closest('.input-password-wrapper') || button.closest('.m2-input-wrapper') || button.closest('.form-group') || button.closest('.m2-form-group');
                 if (parentGroup) {
                     input = parentGroup.querySelector('input');
                 }

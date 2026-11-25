@@ -24,7 +24,7 @@ class UpdateReportRequest extends FormRequest
         return [
             'type' => ['required', 'in:lost,found'],
             'name' => ['required', 'string', 'max:100'],
-            'category_id' => ['required', 'integer'],
+            'category_id' => ['required', 'integer', 'exists:categories,id'],
             'description' => ['required', 'string', 'min:10'],
             'photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
             'location' => ['required', 'string', 'max:150'],
@@ -61,6 +61,7 @@ class UpdateReportRequest extends FormRequest
             'name.required' => 'Nama barang wajib diisi.',
             'name.max' => 'Nama barang maksimal 100 karakter.',
             'category_id.required' => 'Kategori barang wajib dipilih.',
+            'category_id.exists' => 'Kategori barang yang dipilih tidak ditemukan.',
             'description.required' => 'Deskripsi dan ciri barang wajib diisi.',
             'description.min' => 'Deskripsi barang minimal 10 karakter.',
             'photo.image' => 'File yang diunggah harus berupa gambar.',

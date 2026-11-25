@@ -105,7 +105,7 @@
                                         <td>{{ $history->created_at->format('d M Y, H:i') }}</td>
                                         <td>{{ $history->user?->name ?? 'Sistem' }}</td>
                                         <td><x-status-badge :status="$history->new_status" /></td>
-                                        <td>{{ $history->note ?? '-' }}</td>
+                                        <td>{{ $history->notes ?? '-' }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

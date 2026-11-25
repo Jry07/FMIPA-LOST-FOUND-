@@ -103,8 +103,7 @@
                     name="evidence" 
                     id="evidence" 
                     accept="image/jpeg,image/png,image/jpg,image/webp" 
-                    style="display: none;" 
-                    required
+                    style="display: none;"
                 >
 
                 {{-- Pesan error JS jika ada --}}

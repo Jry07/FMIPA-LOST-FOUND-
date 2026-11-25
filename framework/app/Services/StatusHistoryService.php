@@ -11,8 +11,9 @@ class StatusHistoryService
 {
     /**
      * Mencatat histori awal saat laporan pertama kali dibuat (status: menunggu).
+     * Dapat dipanggil secara statis maupun via instance service.
      */
-    public function catatAwal(Item $item, ?User $user = null): ItemStatusHistory
+    public static function catatAwal(Item $item, ?User $user = null): ItemStatusHistory
     {
         return DB::transaction(function () use ($item, $user) {
             return ItemStatusHistory::create([
@@ -27,8 +28,9 @@ class StatusHistoryService
 
     /**
      * Mengubah status item sekaligus mencatat riwayat perubahannya di dalam transaksi DB.
+     * Dapat dipanggil secara statis maupun via instance service.
      */
-    public function ubah(Item $item, string $statusBaru, ?User $user = null, ?string $catatan = null): ItemStatusHistory
+    public static function ubah(Item $item, string $statusBaru, ?User $user = null, ?string $catatan = null): ItemStatusHistory
     {
         return DB::transaction(function () use ($item, $statusBaru, $user, $catatan) {
             $statusLama = $item->status;
@@ -37,14 +39,15 @@ class StatusHistoryService
                 'status' => $statusBaru,
             ]);
 
-            return $this->catatPerubahan($item, $statusLama, $statusBaru, $user, $catatan);
+            return static::catatPerubahan($item, $statusLama, $statusBaru, $user, $catatan);
         });
     }
 
     /**
      * Mencatat riwayat perubahan status item ke tabel item_status_histories.
+     * Dapat dipanggil secara statis maupun via instance service.
      */
-    public function catatPerubahan(
+    public static function catatPerubahan(
         Item $item,
         ?string $statusLama,
         string $statusBaru,

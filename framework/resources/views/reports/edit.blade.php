@@ -171,7 +171,7 @@
                             Tanggal kejadian <span style="color: #DC2626;">*</span>
                         </label>
                         <input type="date" id="incident_date" name="incident_date"
-                               value="{{ old('incident_date', $item->incident_date) }}"
+                               value="{{ old('incident_date', $item->incident_date ? \Carbon\Carbon::parse($item->incident_date)->format('Y-m-d') : '') }}"
                                max="{{ date('Y-m-d') }}"
                                style="width: 100%; padding: 10px 14px; border: 1px solid #D1D5DB; border-radius: 8px; font-size: 14px; box-sizing: border-box;"
                                required>

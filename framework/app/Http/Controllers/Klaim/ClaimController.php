@@ -51,7 +51,7 @@ class ClaimController extends Controller
 
         // 3. Cegah pengajuan ganda (satu user tidak boleh memiliki 2 pengajuan 'diajukan' pada barang yang sama)
         $existingClaim = Claim::where('item_id', $item->id)
-            ->where('submitter_id', auth()->id())
+            ->where('user_id', auth()->id())
             ->where('status', $statusDiajukan)
             ->first();
 
@@ -89,7 +89,7 @@ class ClaimController extends Controller
         }
 
         $existingClaim = Claim::where('item_id', $item->id)
-            ->where('submitter_id', auth()->id())
+            ->where('user_id', auth()->id())
             ->where('status', $statusDiajukan)
             ->first();
 
@@ -109,12 +109,12 @@ class ClaimController extends Controller
 
         // Simpan data Claim
         $claim = Claim::create([
-            'item_id'               => $item->id,
-            'submitter_id'          => auth()->id(),
-            'type'                  => $typeKlaim,
-            'ownership_description' => $request->ownership_description,
-            'evidence'              => $evidencePath,
-            'status'                => $statusDiajukan,
+            'item_id'     => $item->id,
+            'user_id'     => auth()->id(),
+            'type'        => $typeKlaim,
+            'description' => $request->ownership_description,
+            'proof'       => $evidencePath,
+            'status'      => $statusDiajukan,
         ]);
 
         // Notifikasi ke semua akun admin dan petugas
@@ -163,7 +163,7 @@ class ClaimController extends Controller
 
         // 3. Cegah pengajuan ganda
         $existingFinding = Claim::where('item_id', $item->id)
-            ->where('submitter_id', auth()->id())
+            ->where('user_id', auth()->id())
             ->where('status', $statusDiajukan)
             ->first();
 
@@ -199,7 +199,7 @@ class ClaimController extends Controller
         }
 
         $existingFinding = Claim::where('item_id', $item->id)
-            ->where('submitter_id', auth()->id())
+            ->where('user_id', auth()->id())
             ->where('status', $statusDiajukan)
             ->first();
 
@@ -218,15 +218,15 @@ class ClaimController extends Controller
 
         // Simpan data Claim (tipe: penemuan)
         $claim = Claim::create([
-            'item_id'             => $item->id,
-            'submitter_id'        => auth()->id(),
-            'type'                => $typePenemuan,
-            'finding_description' => $request->finding_description,
-            'finding_location'    => $request->finding_location,
-            'finding_time'        => $request->finding_time,
-            'storage_location'    => $request->storage_location,
-            'evidence'            => $evidencePath,
-            'status'              => $statusDiajukan,
+            'item_id'          => $item->id,
+            'user_id'          => auth()->id(),
+            'type'             => $typePenemuan,
+            'description'      => $request->finding_description,
+            'found_location'   => $request->finding_location,
+            'found_time'       => $request->finding_time,
+            'storage_location' => $request->storage_location,
+            'proof'            => $evidencePath,
+            'status'           => $statusDiajukan,
         ]);
 
         // Notifikasi ke semua admin dan petugas

@@ -37,11 +37,11 @@ class DashboardController extends Controller
             : 0;
 
         $totalKlaim = class_exists(Claim::class)
-            ? Claim::where('submitter_id', $userId)->count()
+            ? Claim::where('user_id', $userId)->count()
             : 0;
 
         $klaimDiperiksa = class_exists(Claim::class)
-            ? Claim::where('submitter_id', $userId)->where('status', $statusClaimDiajukan)->count()
+            ? Claim::where('user_id', $userId)->where('status', $statusClaimDiajukan)->count()
             : 0;
 
         $laporanSelesai = class_exists(Item::class)
@@ -64,7 +64,7 @@ class DashboardController extends Controller
 
         // Perkembangan Klaim Anda (1 klaim terbaru milik user)
         $klaimTerbaru = class_exists(Claim::class)
-            ? Claim::where('submitter_id', $userId)
+            ? Claim::where('user_id', $userId)
                 ->with(['item.category'])
                 ->latest()
                 ->first()
@@ -81,7 +81,7 @@ class DashboardController extends Controller
 
         // Riwayat Klaim (5 klaim terbaru)
         $riwayatKlaim = class_exists(Claim::class)
-            ? Claim::where('submitter_id', $userId)
+            ? Claim::where('user_id', $userId)
                 ->with(['item.category'])
                 ->latest()
                 ->take(5)
