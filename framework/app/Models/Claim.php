@@ -22,11 +22,17 @@ class Claim extends Model
     protected $fillable = [
         'item_id',
         'user_id',
+        'submitter_id',
         'type',
         'description',
+        'ownership_description',
+        'finding_description',
         'proof',
+        'evidence',
         'found_location',
+        'finding_location',
         'found_time',
+        'finding_time',
         'storage_location',
         'status',
         'verifier_id',
@@ -49,6 +55,72 @@ class Claim extends Model
     {
         return Attribute::make(
             get: fn () => 'KLM-' . str_pad((string) $this->id, 3, '0', STR_PAD_LEFT)
+        );
+    }
+
+    /**
+     * Alias submitter_id <=> user_id
+     */
+    protected function submitterId(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->attributes['user_id'] ?? null,
+            set: fn ($value) => ['user_id' => $value]
+        );
+    }
+
+    /**
+     * Alias evidence <=> proof
+     */
+    protected function evidence(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->attributes['proof'] ?? null,
+            set: fn ($value) => ['proof' => $value]
+        );
+    }
+
+    /**
+     * Alias ownership_description <=> description
+     */
+    protected function ownershipDescription(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->attributes['description'] ?? null,
+            set: fn ($value) => ['description' => $value]
+        );
+    }
+
+    /**
+     * Alias finding_description <=> description
+     */
+    protected function findingDescription(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->attributes['description'] ?? null,
+            set: fn ($value) => ['description' => $value]
+        );
+    }
+
+    /**
+     * Alias finding_location <=> found_location
+     */
+    protected function findingLocation(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->attributes['found_location'] ?? null,
+            set: fn ($value) => ['found_location' => $value]
+        );
+    }
+
+    /**
+     * Alias finding_time <=> found_time
+     */
+    protected function findingTime(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => isset($this->attributes['found_time']) ? $this->asDateTime($this->attributes['found_time']) : null,
+            set: fn ($value) => ['found_time' => $value]
         );
     }
 
@@ -78,12 +150,12 @@ class Claim extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function submitter(): BelongsTo
     {
-        return $this->user();
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function verifier(): BelongsTo

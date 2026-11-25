@@ -105,7 +105,7 @@ class MyReportController extends Controller
 
         // Catat riwayat perubahan
         if (class_exists(StatusHistoryService::class)) {
-            StatusHistoryService::catatPerubahan($item, $user, 'Laporan diubah oleh pelapor');
+            StatusHistoryService::catatPerubahan($item, $item->status, $item->status, $user, 'Laporan diubah oleh pelapor');
         }
 
         return redirect()->route('my-reports.index')->with('success', 'Laporan berhasil diperbarui.');

@@ -164,23 +164,31 @@
                 </dl>
 
                 {{-- Box Bukti Foto / Dokumen (NFR-05) --}}
-                <div class="claim-evidence-box">
-                    <div>
-                        <strong style="display: block; font-size: 0.9rem; color: var(--klaim-maroon);">
-                            🔒 Berkas Bukti Terlampir
-                        </strong>
-                        <span style="font-size: 0.775rem; color: var(--klaim-text-muted);">
-                            Bukti ini disimpan privat dan hanya dapat dibuka oleh Anda serta petugas verifikator.
+                @if ($claim->proof)
+                    <div class="claim-evidence-box">
+                        <div>
+                            <strong style="display: block; font-size: 0.9rem; color: var(--klaim-maroon);">
+                                🔒 Berkas Bukti Terlampir
+                            </strong>
+                            <span style="font-size: 0.775rem; color: var(--klaim-text-muted);">
+                                Bukti ini disimpan privat dan hanya dapat dibuka oleh Anda serta petugas verifikator.
+                            </span>
+                        </div>
+                        <a href="{{ route('claims.evidence', $claim) }}" target="_blank" rel="noopener noreferrer" class="btn-view-evidence">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                            Buka Bukti
+                        </a>
+                    </div>
+                @else
+                    <div class="claim-evidence-box" style="background-color: #f8fafc;">
+                        <span style="font-size: 0.825rem; color: var(--klaim-text-muted); font-style: italic;">
+                            Tidak ada berkas bukti yang dilampirkan pada pengajuan ini.
                         </span>
                     </div>
-                    <a href="{{ route('claims.evidence', $claim) }}" target="_blank" rel="noopener noreferrer" class="btn-view-evidence">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                        </svg>
-                        Buka Bukti
-                    </a>
-                </div>
+                @endif
             </div>
 
             {{-- Kartu Hasil Pemeriksaan / Verifikasi Petugas --}}
@@ -260,7 +268,7 @@
                     <dd>{{ $claim->item->incident_date ? \Carbon\Carbon::parse($claim->item->incident_date)->translatedFormat('d M Y') : '-' }}</dd>
                 </dl>
 
-                <div style="margin-top: 18px; pt-3; border-top: 1px solid #f1f5f9;">
+                <div style="margin-top: 18px; padding-top: 12px; border-top: 1px solid #f1f5f9;">
                     <a href="{{ route('items.show', $claim->item) }}" class="btn-claim-action btn-claim-yellow" style="font-size: 0.85rem; padding: 10px 14px;">
                         Lihat Laporan Barang
                     </a>

@@ -9,9 +9,10 @@ class NotifikasiService
 {
     /**
      * Mengirim notifikasi database standar Laravel kepada pengguna.
-     * Payload data: judul, pesan, url, jenis.
+     * Payload data: judul, pesan, url, jenis (beserta padanan bahasa Inggris: title, message, type).
+     * Dapat dipanggil secara statis maupun via instance service.
      */
-    public function kirim(
+    public static function kirim(
         User $penerima,
         string $judul,
         string $pesan,

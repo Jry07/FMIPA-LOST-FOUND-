@@ -15,7 +15,7 @@ class MyClaimController extends Controller
      */
     public function index(Request $request): View
     {
-        $claims = Claim::where('submitter_id', auth()->id())
+        $claims = Claim::where('user_id', auth()->id())
             ->with(['item.category', 'verifier'])
             ->latest()
             ->paginate(10);
@@ -30,7 +30,7 @@ class MyClaimController extends Controller
     public function show(Claim $claim): View
     {
         // Otorisasi kepemilikan: tolak 403 jika bukan pemilik
-        if ((int) $claim->submitter_id !== (int) auth()->id()) {
+        if ((int) $claim->user_id !== (int) auth()->id()) {
             abort(403, 'Anda tidak memiliki hak akses untuk melihat rincian pengajuan ini.');
         }
 

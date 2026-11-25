@@ -14,10 +14,11 @@ class FileUploadService
 
     /**
      * Menyimpan file ke disk publik (public/storage) dengan resize otomatis via GD jika gambar > 1280 px.
+     * Dapat dipanggil secara statis maupun via instance service.
      */
-    public function simpanPublik(UploadedFile $file, string $folder = 'items'): string
+    public static function simpanPublik(UploadedFile $file, string $folder = 'items'): string
     {
-        $this->validasiUkuran($file);
+        static::validasiUkuran($file);
 
         $extension = strtolower($file->getClientOriginalExtension());
         $filename = Str::random(40) . ($extension ? '.' . $extension : '');
@@ -26,7 +27,7 @@ class FileUploadService
         // Cek apakah file adalah gambar yang didukung untuk resize GD
         $mime = $file->getMimeType();
         if (str_starts_with($mime, 'image/') && in_array($extension, ['jpg', 'jpeg', 'png', 'webp', 'gif'], true)) {
-            $resizedContent = $this->resizeGambarJikaPerlu($file->getRealPath(), $extension);
+            $resizedContent = static::resizeGambarJikaPerlu($file->getRealPath(), $extension);
             if ($resizedContent !== null) {
                 Storage::disk('public')->put($path, $resizedContent);
                 return $path;
@@ -41,10 +42,11 @@ class FileUploadService
 
     /**
      * Menyimpan file ke disk privat (local private storage, tidak dapat diakses publik).
+     * Dapat dipanggil secara statis maupun via instance service.
      */
-    public function simpanPrivat(UploadedFile $file, string $folder = 'evidences'): string
+    public static function simpanPrivat(UploadedFile $file, string $folder = 'evidences'): string
     {
-        $this->validasiUkuran($file);
+        static::validasiUkuran($file);
 
         $extension = strtolower($file->getClientOriginalExtension());
         $filename = Str::random(40) . ($extension ? '.' . $extension : '');
@@ -54,8 +56,9 @@ class FileUploadService
 
     /**
      * Menghapus file dari disk yang ditentukan.
+     * Dapat dipanggil secara statis maupun via instance service.
      */
-    public function hapus(string $path, string $disk = 'public'): bool
+    public static function hapus(string $path, string $disk = 'public'): bool
     {
         if (Storage::disk($disk)->exists($path)) {
             return Storage::disk($disk)->delete($path);
@@ -67,7 +70,7 @@ class FileUploadService
     /**
      * Validasi batas ukuran file (maksimal 2 MB).
      */
-    protected function validasiUkuran(UploadedFile $file): void
+    protected static function validasiUkuran(UploadedFile $file): void
     {
         if ($file->getSize() > self::MAX_FILE_SIZE_BYTES) {
             throw new InvalidArgumentException('Ukuran file melebihi batas maksimal 2 MB.');
@@ -77,7 +80,7 @@ class FileUploadService
     /**
      * Melakukan resize gambar jika lebarnya melebihi 1280 px menggunakan GD extension.
      */
-    protected function resizeGambarJikaPerlu(string $filePath, string $extension): ?string
+    protected static function resizeGambarJikaPerlu(string $filePath, string $extension): ?string
     {
         if (! extension_loaded('gd')) {
             return null;

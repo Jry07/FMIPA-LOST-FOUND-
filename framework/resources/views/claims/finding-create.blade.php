@@ -167,8 +167,7 @@
                     name="evidence" 
                     id="evidence" 
                     accept="image/jpeg,image/png,image/jpg,image/webp" 
-                    style="display: none;" 
-                    required
+                    style="display: none;"
                 >
 
                 <div id="fileErrorMsg" class="invalid-feedback-klaim" style="display: none;"></div>

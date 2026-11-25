@@ -194,9 +194,9 @@
 </div>
 @endsection
 
-@section('dashboard')
-    @yield('content')
-@endsection
+@push('scripts')
+    <script src="{{ asset('js/modules/auth.js') }}"></script>
+@endpush
 
 @push('scripts')
     <script src="{{ asset('js/modules/auth.js') }}"></script>

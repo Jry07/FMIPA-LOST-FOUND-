@@ -46,7 +46,8 @@ class AdminDashboardController extends Controller
         $totalAkun = array_sum($totalPerRole);
 
         // Kartu aksi cepat
-        $menanggguVerifikasi = $totalPerStatus['menunggu'];
+        $menungguVerifikasi  = $totalPerStatus['menunggu'];
+        $menanggguVerifikasi = $menungguVerifikasi;
         $menungguPemeriksaan = $totalKlaimPerStatus['diajukan'];
 
         // Laporan terbaru (5 terakhir) + eager load
@@ -64,6 +65,7 @@ class AdminDashboardController extends Controller
             'totalHandover',
             'totalPerRole',
             'totalAkun',
+            'menungguVerifikasi',
             'menanggguVerifikasi',
             'menungguPemeriksaan',
             'laporanTerbaru'

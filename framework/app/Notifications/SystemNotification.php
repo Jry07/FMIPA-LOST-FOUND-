@@ -28,15 +28,19 @@ class SystemNotification extends Notification
 
     /**
      * Get the array representation of the notification.
+     * Sesuai KONTRAK.md (title, message, url, type) dan kompatibel dengan view (judul, pesan, jenis).
      *
      * @return array<string, mixed>
      */
     public function toArray(object $notifiable): array
     {
         return [
+            'title' => $this->judul,
+            'message' => $this->pesan,
+            'url' => $this->url,
+            'type' => $this->jenis,
             'judul' => $this->judul,
             'pesan' => $this->pesan,
-            'url' => $this->url,
             'jenis' => $this->jenis,
         ];
     }

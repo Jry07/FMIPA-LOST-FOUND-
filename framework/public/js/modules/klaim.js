@@ -108,4 +108,16 @@ document.addEventListener('DOMContentLoaded', function () {
             validateAndPreview(files[0]);
         }
     });
+
+    // Validasi wajib unggah bukti saat form disubmit (mencegah HTML5 validation error pada input tersembunyi)
+    const parentForm = fileInput.closest('form');
+    if (parentForm) {
+        parentForm.addEventListener('submit', function (e) {
+            if (!fileInput.files || fileInput.files.length === 0) {
+                e.preventDefault();
+                showError('Berkas bukti foto wajib diunggah sebelum mengirimkan pengajuan.');
+                dropzone.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        });
+    }
 });

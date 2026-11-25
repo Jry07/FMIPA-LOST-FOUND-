@@ -15,7 +15,7 @@
     <a href="{{ route('verification.items.index') }}" class="quick-action-card quick-action-warning">
         <div class="qa-icon">📋</div>
         <div class="qa-info">
-            <span class="qa-count">{{ $menanggguVerifikasi }}</span>
+            <span class="qa-count">{{ $menungguVerifikasi }}</span>
             <span class="qa-label">Laporan menunggu verifikasi</span>
         </div>
         <span class="qa-arrow">→</span>

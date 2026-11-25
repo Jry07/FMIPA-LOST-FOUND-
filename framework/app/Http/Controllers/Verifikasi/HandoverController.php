@@ -82,7 +82,7 @@ class HandoverController extends Controller
 
         // Tentukan penerima yang sah
         $receiverId = $claim->item->type === Item::TYPE_FOUND
-            ? $claim->submitter_id
+            ? ($claim->user_id ?? $claim->submitter_id)
             : $claim->item->user_id;
 
         $receiver = User::findOrFail($receiverId);
@@ -94,8 +94,8 @@ class HandoverController extends Controller
                 'claim_id' => $claim->id,
                 'receiver_id' => $receiverId,
                 'officer_id' => auth()->id(),
-                'handed_over_at' => now(),
-                'return_note' => $request->return_note,
+                'handover_date' => now(),
+                'notes' => $request->return_note,
             ]);
 
             // 2. Ubah status laporan ke Item::STATUS_SELESAI lewat StatusHistoryService (Aturan 7)
